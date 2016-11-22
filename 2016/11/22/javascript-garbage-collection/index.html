@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>猿人</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="" />
+    
+    <meta name="description" content="Javascript 垃圾回收机制每个需要消耗内存的程序都需要某种机制来预约和释放内存空间。内存管理提供了一种动态分配内存区块的机制，它会动态创建一个内存区块来存储一个数据单元，而当应用不再需要该数据单元时又可以释放该内存区块，该机制保证了处于内存区块中的数据单元的可复用性
+应用级别的内存管理既可以人工维护，也可以是自动的，自动的内存管理往往会涉及垃圾回收
+下面用 c 程序演示如何分配内存、回收内">
+<meta property="og:type" content="article">
+<meta property="og:title" content="猿人">
+<meta property="og:url" content="https://harbin1053020115.github.io/2016/11/22/javascript-garbage-collection/index.html">
+<meta property="og:site_name" content="猿人">
+<meta property="og:description" content="Javascript 垃圾回收机制每个需要消耗内存的程序都需要某种机制来预约和释放内存空间。内存管理提供了一种动态分配内存区块的机制，它会动态创建一个内存区块来存储一个数据单元，而当应用不再需要该数据单元时又可以释放该内存区块，该机制保证了处于内存区块中的数据单元的可复用性
+应用级别的内存管理既可以人工维护，也可以是自动的，自动的内存管理往往会涉及垃圾回收
+下面用 c 程序演示如何分配内存、回收内">
+<meta property="og:image" content="https://img.alicdn.com/tps/TB1HWCtOpXXXXbZXVXXXXXXXXXX-273-268.png">
+<meta property="og:updated_time" content="2016-11-22T13:20:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="猿人">
+<meta name="twitter:description" content="Javascript 垃圾回收机制每个需要消耗内存的程序都需要某种机制来预约和释放内存空间。内存管理提供了一种动态分配内存区块的机制，它会动态创建一个内存区块来存储一个数据单元，而当应用不再需要该数据单元时又可以释放该内存区块，该机制保证了处于内存区块中的数据单元的可复用性
+应用级别的内存管理既可以人工维护，也可以是自动的，自动的内存管理往往会涉及垃圾回收
+下面用 c 程序演示如何分配内存、回收内">
+<meta name="twitter:image" content="https://img.alicdn.com/tps/TB1HWCtOpXXXXbZXVXXXXXXXXXX-273-268.png">
+    
+
+    
+        <link rel="alternate" href="/" title="猿人" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/">猿人</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">猿人的博客</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Inici</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">Quant a</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Cercar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'categories',
+            TAGS: 'etiquetes',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    Sense categoria
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-javascript-garbage-collection" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <div class="article-subtitle">
+                <a href="/2016/11/22/javascript-garbage-collection/" class="article-date">
+    <time datetime="2016-11-22T13:20:05.000Z" itemprop="datePublished">2016-11-22</time>
+</a>
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Javascript-垃圾回收机制"><a href="#Javascript-垃圾回收机制" class="headerlink" title="Javascript 垃圾回收机制"></a>Javascript 垃圾回收机制</h1><p>每个需要消耗内存的程序都需要某种机制来预约和释放内存空间。内存管理提供了一种动态分配内存区块的机制，它会动态创建一个内存区块来存储一个数据单元，而当应用不再需要该数据单元时又可以释放该内存区块，该机制保证了处于内存区块中的数据单元的可复用性</p>
+<p>应用级别的内存管理既可以人工维护，也可以是自动的，自动的内存管理往往会涉及垃圾回收</p>
+<p>下面用 c 程序演示如何分配内存、回收内存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line"></div><div class="line">int main() &#123;</div><div class="line">   char name[20];</div><div class="line">   char *description;</div><div class="line"></div><div class="line">   strcpy(name, &quot;RisingStack&quot;);</div><div class="line"></div><div class="line">   // memory allocation</div><div class="line">   description = malloc( 30 * sizeof(char) );</div><div class="line"></div><div class="line">   if( description == NULL ) &#123;</div><div class="line">      fprintf(stderr, &quot;Error - unable to allocate required memory\n&quot;);</div><div class="line">   &#125; else &#123;</div><div class="line">      strcpy( description, &quot;Trace by RisingStack is an APM.&quot;);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   printf(&quot;Company name = %s\n&quot;, name );</div><div class="line">   printf(&quot;Description: %s\n&quot;, description );</div><div class="line"></div><div class="line">   // release memory</div><div class="line">   free(description);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>人工方式的内存管理需要开发者手工去释放已分配的内存，有效的内存释放可以让程序避免如下几个主要的 bugs：</p>
+<ul>
+<li>内存泄漏：不再使用的内存区块无法被释放</li>
+<li>野指针：当一个对象被删除之后，引用该对象就指向到了一个野指针，野指针是指向“垃圾”内存的指针</li>
+</ul>
+<p>幸运的是，Nodejs 自带垃圾回收机制，也就是说 Nodejs 是一个具有自动内存管理的语言，我们不需要手动去管理内存分配/释放</p>
+<h2 id="垃圾回收的概念"><a href="#垃圾回收的概念" class="headerlink" title="垃圾回收的概念"></a>垃圾回收的概念</h2><p>垃圾回收(Garbage Collector, 简称 GC)是一种自动管理内存单元的机制。GC 的主要职责是回收不再被使用的内存单元。1959 年首次在 LISP 语言中由 John McCarthy 发明</p>
+<ul>
+<li>垃圾回收之前</li>
+</ul>
+<p>下图展现了内存中的样子，有一些对象之间互相引用，而有一些对象与其它对象之间不存在任何引用关系，这些不存在引用关系的对象将会被 GC 回收</p>
+<p><img src="https://img.alicdn.com/tps/TB1HWCtOpXXXXbZXVXXXXXXXXXX-273-268.png" alt=""></p>
+<ul>
+<li>垃圾回收之后</li>
+</ul>
+<p>一旦 GC 运行之后，这些不存在引用关系的对象被删除，内存也被释放</p>
+<p><img src="https://img.alicdn.com/tps/TB1v75AOpXXXXXzXVXXXXXXXXXX-223-203.png" alt=""></p>
+<h2 id="垃圾回收的好处"><a href="#垃圾回收的好处" class="headerlink" title="垃圾回收的好处"></a>垃圾回收的好处</h2><ul>
+<li>避免因野指针引起的 bugs</li>
+<li>不会重复释放已经释放的内存单元</li>
+<li>避免内存泄露</li>
+</ul>
+<p>当然，垃圾回收机制不是万能解药（如果垃圾回收机制可以帮我们解决所有问题，也就没有必要写这篇文章啦~），垃圾回收机制不是内存管理的银弹，下面我们来看下开发者还需要关注的注意点：</p>
+<ul>
+<li>性能：为了辨识哪些内存单元可以被释放，GC 需要消耗计算能力</li>
+<li>不可预测性：现代的 GC 实现都尝试去避免 <code>stop-the-world</code> </li>
+</ul>
+<blockquote>
+<p>在开始学习GC之前你应该知道一个词：<code>stop-the-world</code>。不管选择哪种GC算法，<code>stop-the-world</code> 都是不可避免的。<code>Stop-the-world</code> 意味着从应用中停下来并进入到 GC 执行过程中去。一旦 <code>Stop-the-world</code> 发生，除了 GC 所需的线程外，其他线程都将停止工作，中断了的线程直到 GC 任务结束才继续它们的任务。GC 调优通常就是为了改善 <code>stop-the-world</code> 的时间</p>
+</blockquote>
+<p>@TODO</p>
+<h2 id="垃圾回收原理"><a href="#垃圾回收原理" class="headerlink" title="垃圾回收原理"></a>垃圾回收原理</h2><p>先来介绍下 Javascript 中内存的基础知识</p>
+<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>我们知道 Javascript 中的变量分为基本类型和引用类型两种，基本类型就是保存在栈内存中的数据单元，而引用类型指的是那些保存在堆内存中的对象</p>
+<p>引用类型，值大小不固定，栈内存中存放地址指向堆内存中的对象，是按引用访问的。如下图所示：栈内存中存放的只是该对象的访问地址，在堆内存中为这个值分配空间。由于这种值的大小不固定，因此不能把它们保存到栈内存中。但内存地址大小的固定的，因此可以将内存地址保存在栈内存中。这样，当查询引用类型的变量时， 先从栈中读取内存地址，然后再通过地址找到堆中的值。对于这种，我们把它叫做按引用访问</p>
+<p><img src="https://img.alicdn.com/tps/TB1yPaQOpXXXXb1XXXXXXXXXXXX-492-326.png" alt=""></p>
+<h4 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h4><p>栈中保存了基本类型的变量、以及一些引用对象/函数的指针</p>
+<p>下面例子中的 <code>a</code> 和 <code>b</code> 变量都会被存储到栈内存中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function add (a, b) &#123;</div><div class="line">  return a + b;</div><div class="line">&#125;</div><div class="line"></div><div class="line">add(4, 5);</div></pre></td></tr></table></figure>
+<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>堆内存中存储的是一些引用类型的对象</p>
+<p>以下例子中创建的 <code>Car</code> 就是一个存储在堆内存中的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function Car (options) &#123;</div><div class="line">  this.name = options.name;</div><div class="line">  this.color = options.color;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const myCar = new Car(&#123;</div><div class="line">  name: &apos;Benz&apos;, </div><div class="line">  color: &apos;white&apos;,</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>在 Nodejs 中，当一个方法执行时，每一个方法都会创建一个自己的内存栈，在这个方法中定义的变量会逐个放入到这个内存栈中，随着这个方法的执行，这个方法的内存栈会被回收</p>
+<p>当 Javascript 创建一个对象的时候，会在堆内存中为该对象分配一个存储区块，堆内存中的对象不会随着方法的结束而销毁，即使方法结束后，这个对象还可能被另外一个引用变量所引用，这种情况下该对象不会被销毁，只有当一个对象没有任何引用变量引用的时候，才会被销毁</p>
+<h3 id="垃圾回收机制的两种策略"><a href="#垃圾回收机制的两种策略" class="headerlink" title="垃圾回收机制的两种策略"></a>垃圾回收机制的两种策略</h3><p>对于函数内部的局部变量来说，函数运行结束之后，这些局部变量就没有存在的必要了，在这种情况下可以比较容易判断是否需要进行垃圾回收；但是并非所有情况都这么好判断，垃圾回收器必须跟踪一个变量，对于没有用的变量进行打标，以备将来回收器占用的内存。</p>
+<p>用于标识变量是否还有用的策略可能会因现实而异，主要分为以下两种策略：</p>
+<ul>
+<li>标记清除(<code>mark-and-sweep</code>)</li>
+</ul>
+<p>当变量进入环境（例如，在函数中声明一个变量）时，就将这个变量标记为“进入环境”。从逻辑上讲，永远不能释放进入环境的变量所占的内存，因为只要执行流进入相应的环境，就可能用到它们。而当变量离开环境时，则将其标记为“离开环境”</p>
+<p>垃圾回收器在运行的时候会给存储在内存中的所有变量都加上标记（当然，可以使用任何标记方式）。然后，它会去掉环境中变量以及被环境中的变量引用的变量标记。而在此之后再被加上标记的变量将被视为准备删除的变量，原因是环境中的变量已经无法访问到这些变量了。最后，垃圾收集器完成内存清除工作，销毁那些带标记的值并回收它们所占用的内存空间</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><p>顾名思义，标记-清除算法分为两个阶段，标记(mark)和清除(sweep).</p>
+<p>在标记阶段，collector从mutator根对象开始进行遍历，对从mutator根对象可以访问到的对象都打上一个标识，一般是在对象的header中，将其记录为可达对象</p>
+<p>而在清除阶段，collector对堆内存(heap memory)从头到尾进行线性的遍历，如果发现某个对象没有标记为可达对象-通过读取对象的header信息，则就将其回收</p>
+<p><img src="https://img.alicdn.com/tps/TB1ZwmlOpXXXXacapXXXXXXXXXX-434-502.png" alt=""></p>
+<p>从上图我们可以看到，在Mark阶段，从根对象1可以访问到B对象，从B对象又可以访问到E对象，所以B,E对象都是可达的。同理，F,G,J,K也都是可达对象。到了Sweep阶段，所有非可达对象都会被collector回收。同时，Collector在进行标记和清除阶段时会将整个应用程序暂停(mutator)，等待标记清除结束后才会恢复应用程序的运行，这也是Stop-The-World这个单词的来历</p>
+<p>大多数浏览器的Javascript实现使用的都是标记清除式的垃圾回收策略，只不过垃圾回收器的时间间隔互不相同</p>
+<ul>
+<li>引用计数(<code>reference counting</code>)</li>
+</ul>
+<p>引用计数的含义是跟踪记录每个值被引用的次数。当声明一个变量并将引用类型的值赋给该变量时，则这个值的引用次数就是 1。如果同一个值又被赋给另一个变量，则该值的引用次数加 1。相反，如果包含对这个值引用的变量又取得另外一个值，则这个值的引用次数减 1，当这个值的引用次数变成 0 时，则说明没有办法访问这个值了，因此就可以将其中占用的内存空间回收回来。这样当垃圾回收器下次再运行时，它就会释放那些引用次数为 0 的值所占用的内存</p>
+<p>引用计数存在一个严重的问题：循环引用。循环引用指的是对象 A 中包含一个指向对象 B 的引用，而对象 B 中也包含一个指向对象 A 的引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function () &#123;</div><div class="line">    var objectA = new Object();</div><div class="line">    var objectB = new Object();</div><div class="line"></div><div class="line">    objectA.someOtherObject = objectB;</div><div class="line">    objectB.anotherObject = objectA;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这个例子中，objectA 和 objectB 通过各自的属性相互引用，也就是说，这两个对象的引用次数都是 2。在采用标记清除策略的实现中，由于函数执行之后，这两个对象都离开了作用域。因此这两种相互引用不是个问题。但在采用引用计数策略的实现中，在函数执行完毕后，objectA 和 objectB 还将继续存在，因此他们的引用次数永远不会是 0。假如这个函数被重复调用，就会导致大量的内存得不到回收（函数在调用过程会重新为变量分配内存空间）</p>
+<h4 id="垃圾回收在-IE-浏览器中存在的问题"><a href="#垃圾回收在-IE-浏览器中存在的问题" class="headerlink" title="垃圾回收在 IE 浏览器中存在的问题"></a>垃圾回收在 IE 浏览器中存在的问题</h4><p>浏览器对象中除了原生的 Javascript 对象之外，还有一些宿主对象提供的对象，比如：<code>BOM</code> 对象和 <code>DOM</code> 对象，<code>BOM</code> 和 <code>DOM</code> 中的对象就是使用 C++ 以 COM（Component Object Model，组件对象模型）对象的形式实现的，而COM对象的垃圾回收机制采用的就是引用计数策略。因此，即使 IE 的 Javascript 引擎是使用标记清除策略来实现的，但 Javascript 访问的 COM 对象依然是基于引用计数策略的。</p>
+<p>我们来看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// DOM 对象</div><div class="line">var element = document.getElementById(&quot;some_element&quot;);</div><div class="line"></div><div class="line">//javascript原生对象</div><div class="line">var myObject = new Object();</div><div class="line"></div><div class="line">//原生对象引用DOM对象</div><div class="line">myObject.element = element;</div><div class="line"></div><div class="line">//DOM对象引用原生对象</div><div class="line">element.somObject = myObject;</div></pre></td></tr></table></figure>
+<p>我们在一个原生的 Javascript 对象与 DOM 对象之间建立了一个循环引用的关系，这样就算我们删除了这个 DOM 元素，由于还存在对其的引用，这个 DOM 对象在引用计算策略中的引用次数永远都不可能变为 0，也就无法被垃圾回收机制标记为可删除</p>
+<h3 id="垃圾回收的性能问题"><a href="#垃圾回收的性能问题" class="headerlink" title="垃圾回收的性能问题"></a>垃圾回收的性能问题</h3><p>垃圾回收是个代价非常高的进程，因为它会中断程序的执行，从而影响程序的性能。垃圾回收器都是周期性运行的，而且如果为变量分配的内存数量很客观，那么回收工作量也是相当大的。</p>
+<h3 id="引起内存泄露问题常见使用方式"><a href="#引起内存泄露问题常见使用方式" class="headerlink" title="引起内存泄露问题常见使用方式"></a>引起内存泄露问题常见使用方式</h3><ul>
+<li>不小心声明的全局变量</li>
+</ul>
+<p>在 Javascript 函数中，如果忘记使用 <code>var</code> 声明一个变量，这个变量将会提升为全局变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function foo(arg) &#123;</div><div class="line">    bar = &quot;this is a hidden global variable&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码等同于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    window.bar = &apos;this is a hidden global variable&apos;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们知道在函数结束之后，函数内部的变量将会被回收，但是如果是用全局变量的方式声明一个变量，这个全局变量在函数结束之后还可以被跟对象所访问，所以该变量无法被回收</p>
+<ul>
+<li>计时器 &amp; 回调</li>
+</ul>
+<p>@ TODO</p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>参考文章：</p>
+<ul>
+<li><a href="https://blog.risingstack.com/node-js-at-scale-node-js-garbage-collection/" target="_blank" rel="external">Node.js at Scale - Node.js Garbage Collection Explained</a></li>
+<li><a href="https://eamiear.gitbooks.io/frontend/content/JavaScript%E6%A8%A1%E5%9D%97/JavaScript%E8%BF%9B%E9%98%B6/javascript%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F.html" target="_blank" rel="external">javascript垃圾收集机制与内存泄漏</a></li>
+<li><a href="http://www.cnblogs.com/hustskyking/archive/2013/04/27/garbage-collection.html" target="_blank" rel="external">JavaScript垃圾回收机制</a></li>
+<li><a href="http://www.jianshu.com/p/b0f5d21fe031" target="_blank" rel="external">标记-清除算法</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://harbin1053020115.github.io/2016/11/22/javascript-garbage-collection/" data-id="civtj8x5w0001j18r6dueiwn7" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>seguir:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/11/21/intro/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">antic</strong>
+        <p class="article-nav-title">初心</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/11/22/javascript-garbage-collection/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://img.alicdn.com/tps/TB1HWCtOpXXXXbZXVXXXXXXXXXX-273-268.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/11/22/javascript-garbage-collection/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2016-11-22T13:20:05.000Z" itemprop="datePublished">2016-11-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/11/21/intro/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/11/21/intro/" class="title">初心</a></p>
+                            <p class="item-date"><time datetime="2016-11-21T11:57:15.000Z" itemprop="datePublished">2016-11-21</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">arxius</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <p>&copy; 2016 ermin.zem</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://harbin1053020115.github.io/2016/11/22/javascript-garbage-collection/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
