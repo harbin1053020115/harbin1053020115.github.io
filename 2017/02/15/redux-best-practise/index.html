@@ -3,18 +3,41 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archive: 2017/2 | 猿人</title>
+    <title>React &amp; Redux 最佳实践 | 猿人</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="程序员的一个">
-<meta property="og:type" content="website">
-<meta property="og:title" content="猿人">
-<meta property="og:url" content="https://harbin1053020115.github.io/archives/2017/02/index.html">
+        <meta name="keywords" content="react redux" />
+    
+    <meta name="description" content="业界方案react + react-router + redux + react-router-redux + redux-saga(可选)
+关于异步处理redux 可解决了同步方式的 Action &amp;lt;=&amp;gt; State 业务逻辑处理，异步处理业界也有相应的解决方案。比如：
+
+redux-thunk
+redux-promise
+
+通过 action creator 的方式返回一个函数来封">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React & Redux 最佳实践">
+<meta property="og:url" content="https://harbin1053020115.github.io/2017/02/15/redux-best-practise/index.html">
 <meta property="og:site_name" content="猿人">
-<meta property="og:description" content="程序员的一个">
+<meta property="og:description" content="业界方案react + react-router + redux + react-router-redux + redux-saga(可选)
+关于异步处理redux 可解决了同步方式的 Action &amp;lt;=&amp;gt; State 业务逻辑处理，异步处理业界也有相应的解决方案。比如：
+
+redux-thunk
+redux-promise
+
+通过 action creator 的方式返回一个函数来封">
+<meta property="og:image" content="https://camo.githubusercontent.com/068c4ff126977b861cff3338428bdde6927f7dad/68747470733a2f2f6f732e616c697061796f626a656374732e636f6d2f726d73706f7274616c2f43684d775a42755a6c614c725377652e706e67">
+<meta property="og:updated_time" content="2017-02-15T03:38:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="猿人">
-<meta name="twitter:description" content="程序员的一个">
+<meta name="twitter:title" content="React & Redux 最佳实践">
+<meta name="twitter:description" content="业界方案react + react-router + redux + react-router-redux + redux-saga(可选)
+关于异步处理redux 可解决了同步方式的 Action &amp;lt;=&amp;gt; State 业务逻辑处理，异步处理业界也有相应的解决方案。比如：
+
+redux-thunk
+redux-promise
+
+通过 action creator 的方式返回一个函数来封">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/068c4ff126977b861cff3338428bdde6927f7dad/68747470733a2f2f6f732e616c697061796f626a656374732e636f6d2f726d73706f7274616c2f43684d775a42755a6c614c725377652e706e67">
     
 
     
@@ -102,291 +125,158 @@ ga('send', 'pageview');
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>Archive: 2017/2
+    Aucune catégorie
     </h1>
 </div>
                         <div class="main-body-content">
-                            
+                            <article id="post-redux-best-practise" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        React &amp; Redux 最佳实践
+        </h1>
+    
 
-    
-    
+            </header>
         
         
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
+            <div class="article-subtitle">
+                <a href="/2017/02/15/redux-best-practise/" class="article-date">
+    <time datetime="2017-02-15T03:36:55.000Z" itemprop="datePublished">2017-02-15</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react-redux/">react redux</a></li></ul>
+
             </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
         
-        <a href="/2017/02/15/redux-vs-mobx/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-vs-mobx/">0</span>
-    
-</span>
+        <div class="article-entry" itemprop="articleBody">
+            <h3 id="业界方案"><a href="#业界方案" class="headerlink" title="业界方案"></a>业界方案</h3><p><a href="https://facebook.github.io/react/" target="_blank" rel="external">react</a> + <a href="https://github.com/ReactTraining/react-router" target="_blank" rel="external">react-router</a> + <a href="https://github.com/reactjs/redux" target="_blank" rel="external">redux</a> + <a href="https://github.com/reactjs/react-router-redux" target="_blank" rel="external">react-router-redux</a> + <a href="https://github.com/redux-saga/redux-saga" target="_blank" rel="external">redux-saga</a>(可选)</p>
+<h3 id="关于异步处理"><a href="#关于异步处理" class="headerlink" title="关于异步处理"></a>关于异步处理</h3><p>redux 可解决了同步方式的 Action &lt;=&gt; State 业务逻辑处理，异步处理业界也有相应的解决方案。比如：</p>
+<ul>
+<li><a href="https://github.com/gaearon/redux-thunk" target="_blank" rel="external">redux-thunk</a></li>
+<li><a href="https://www.npmjs.com/package/redux-promise" target="_blank" rel="external">redux-promise</a></li>
+</ul>
+<p>通过 action creator 的方式返回一个函数来封装异步操作以及后续的 action dispatch，可以解决问题，但是会影响 component 的纯粹性（dispatch 可能会分散到 component 中）</p>
+<ul>
+<li><a href="https://github.com/redux-saga/redux-saga" target="_blank" rel="external">redux-saga</a></li>
+</ul>
+<p>用于管理 action，处理异步逻辑。可测试、可 mock、声明式的指令</p>
+<p>component 只需要 dispatch 一个 action，后续所有的操作（包括异步操作，dispatch 另一个 action）都由 saga 进行管理；同时，saga 利用 generator 来进行异步操作的同步方式 coding，让代码更可读性 &amp; 可维护性更高</p>
+<p>另外，引入 saga 之后还会同步引入一个 saga 层，让本身就并不简单的 redux 目录结构更加复杂，增加了开发复杂度</p>
+<h3 id="整体开发感受"><a href="#整体开发感受" class="headerlink" title="整体开发感受"></a>整体开发感受</h3><p>概念太多，上手难度高</p>
+<ul>
+<li>saga 理解成本高，书写复杂</li>
+<li>开发成本高，需要频繁在 reducer, saga, action 之间来回切换</li>
+<li>不方便组织业务模型，创建一个业务模型需要创建一堆文件</li>
+<li>entry 文件书写复杂：除了 redux store 的创建，中间件的配置，路由的初始化，Provider 的 store 的绑定，saga 的初始化，还要处理 reducer, component, saga 的 HMR</li>
+</ul>
+<h3 id="支付宝解决方案"><a href="#支付宝解决方案" class="headerlink" title="支付宝解决方案"></a>支付宝解决方案</h3><p><a href="https://github.com/dvajs/dva" target="_blank" rel="external">dva</a></p>
+<p><img src="https://camo.githubusercontent.com/068c4ff126977b861cff3338428bdde6927f7dad/68747470733a2f2f6f732e616c697061796f626a656374732e636f6d2f726d73706f7274616c2f43684d775a42755a6c614c725377652e706e67" alt=""></p>
+<p>基于以上开发问题，支付宝基于现有解决方案封装了 dva</p>
+<p>两大特性：</p>
+<ul>
+<li>借鉴 <a href="https://github.com/yoshuawuyts/choo" target="_blank" rel="external">choo</a> API 简化 entry 文件书写</li>
+<li>借鉴 <a href="http://elm-lang.org/" target="_blank" rel="external">elm</a> 引入 model 概念，用于把 reducer, initialState, action, saga 封装到一起</li>
+</ul>
+<p>带来的好处：</p>
+<ul>
+<li>5 步 4 个接口完成单页应用的编码，不需要配 middleware，不需要初始化 saga runner，不需要 fork, watch saga，不需要创建 store，不需要写 createStore，然后和 Provider 绑定，等等。但却能拥有 redux + redux-saga + … 的所有功能</li>
+<li>封装 redux &amp; saga 中的 reducer, action, saga 到一个 modal 文件，集中管理所有业务逻辑</li>
+</ul>
+<h3 id="待优化点"><a href="#待优化点" class="headerlink" title="待优化点"></a>待优化点</h3><ul>
+<li>Enhance reducer 暂不支持</li>
+<li>动态的加载 modal 暂不支持</li>
+<li>脚手架优化点：<ul>
+<li>多页面场景，支持添加页面</li>
+<li>符合数加平台这边的 util/request 封装</li>
+<li>接入云构建</li>
+</ul>
+</li>
+</ul>
 
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:41:36.000Z" itemprop="datePublished">2017-02-15</time></p>
         </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-vs-mobx/">React state管理解决方案对比(Redux vs Mobx)</a>
-        </h1>
-    
+        <footer class="article-footer">
+            
 
-        <p class="article-excerpt">
-            Redux 和 Mobx 是两个比较流行的 react state 管理解决方案，本文主要来对比下两个解决方案及其各自适合的使用场景。
-不同之处redux
-函数式编程
 
-函数式变成已经变得非常流行，但是大多数开发者更熟悉的是面向对象编程模式，所以 redux 对于这些开发者来说具有一定的起步成本
 
-纯函数
+    <a data-url="https://harbin1053020115.github.io/2017/02/15/redux-best-practise/" data-id="ciz6ew2w20000qbbhzkcyh599" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
-利用函数式编程中的纯函数方式，纯函数接受输入参数，输出输出对象，且不依赖任何外部属性、对象
-        </p>
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/redux-state-orm/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-state-orm/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:40:41.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-state-orm/">Redux最佳实践之关系型State对象管理</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            客户端应用复杂度越来越高，我们经常会在应用中涉及到需要处理嵌套结构/关系型数据结构。
-Redux 推荐使用结构化的形式存储 state，对于使用 redux 应用来说，意味着我们的 state 结构将会类似关系型数据库一样。
-场景一个管理成员 Todo List 的应用，我们拥有一个成员列表，每一个成员拥有一个 Todo List 列表，每一个 Todo Item 拥有 Todo Tags
-Liv
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/service-worker-mock/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://mdn.mozillademos.org/files/12632/sw-events.png)" alt="基于 Service Worker 的本地服务 mock 方案" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/service-worker-mock/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:39:04.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/service-worker-mock/">基于 Service Worker 的本地服务 mock 方案</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            本地服务 mock 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？
-我们先来看下本地服务 mock 的功能特性：
-
-本地 server
-
-启动一个本地的 server，一般由 Nodejs 完成
-
-服务映射
-
-定义一套服务映射列表，比如让 /apis/xxx 的所有请求映射到 /mocks/apis/ 目录下的 xxx.js 文件（也可
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/redux-best-practise/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://camo.githubusercontent.com/068c4ff126977b861cff3338428bdde6927f7dad/68747470733a2f2f6f732e616c697061796f626a656374732e636f6d2f726d73706f7274616c2f43684d775a42755a6c614c725377652e706e67)" alt="React &amp; Redux 最佳实践" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-best-practise/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:36:55.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-best-practise/">React &amp; Redux 最佳实践</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            业界方案react + react-router + redux + react-router-redux + redux-saga(可选)
-关于异步处理redux 可解决了同步方式的 Action &lt;=&gt; State 业务逻辑处理，异步处理业界也有相应的解决方案。比如：
-
-redux-thunk
-redux-promise
-
-通过 action creator 的方式返回一个函数来封
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/new-css-feature-in-2017/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://mmbiz.qpic.cn/mmbiz_png/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibiaG2cmUu20jPNhA6uoTkcDdwJcWiasZf6LxXmAmCFyFia3icia2jibjqqbTQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1)" alt="2017年需要关注的3个CSS新特性" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/new-css-feature-in-2017/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:20:30.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/new-css-feature-in-2017/">2017年需要关注的3个CSS新特性</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            2016已过，先预祝大家过一个好年，2017年又将开启，我们坚持初心，继续前进~
-自己打脸：其实已经很久没有发文章了~
-新的一年前端又将会有很多新东西迎接着我们，我们始终要保持一份持续学习的心态和习惯。
-今天来看下2017年最令我心动的三个CSS新特性：
-一、特性检查‘特性检查’的作用类似于 Media Query，可以通过条件表达式来限定样式表是否可以起作用，只不过 Media Query 是包
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
-
+    </section>
 
                         </div>
                     </section>
@@ -446,6 +336,29 @@ redux-promise
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/02/15/service-worker-mock/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">+ récent</strong>
+        <p class="article-nav-title">
+        
+            基于 Service Worker 的本地服务 mock 方案
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/02/15/new-css-feature-in-2017/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">- récent</strong>
+        <p class="article-nav-title">2017年需要关注的3个CSS新特性</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -633,11 +546,13 @@ redux-promise
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'https://harbin1053020115.github.io/2017/02/15/redux-best-practise/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>

@@ -3,35 +3,50 @@
 <head>
     <meta charset="utf-8">
     
-    <title>2017年需要关注的3个CSS新特性 | 猿人</title>
+    <title>基于 Service Worker 的本地服务 mock 方案 | 猿人</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="css" />
+        <meta name="keywords" content="service-worker" />
     
-    <meta name="description" content="2016已过，先预祝大家过一个好年，2017年又将开启，我们坚持初心，继续前进~
-自己打脸：其实已经很久没有发文章了~
-新的一年前端又将会有很多新东西迎接着我们，我们始终要保持一份持续学习的心态和习惯。
-今天来看下2017年最令我心动的三个CSS新特性：
-一、特性检查‘特性检查’的作用类似于 Media Query，可以通过条件表达式来限定样式表是否可以起作用，只不过 Media Query 是包">
+    <meta name="description" content="本地服务 mock 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？
+我们先来看下本地服务 mock 的功能特性：
+
+本地 server
+
+启动一个本地的 server，一般由 Nodejs 完成
+
+服务映射
+
+定义一套服务映射列表，比如让 /apis/xxx 的所有请求映射到 /mocks/apis/ 目录下的 xxx.js 文件（也可">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2017年需要关注的3个CSS新特性">
-<meta property="og:url" content="https://harbin1053020115.github.io/2017/02/15/new-css-feature-in-2017/index.html">
+<meta property="og:title" content="基于 Service Worker 的本地服务 mock 方案">
+<meta property="og:url" content="https://harbin1053020115.github.io/2017/02/15/service-worker-mock/index.html">
 <meta property="og:site_name" content="猿人">
-<meta property="og:description" content="2016已过，先预祝大家过一个好年，2017年又将开启，我们坚持初心，继续前进~
-自己打脸：其实已经很久没有发文章了~
-新的一年前端又将会有很多新东西迎接着我们，我们始终要保持一份持续学习的心态和习惯。
-今天来看下2017年最令我心动的三个CSS新特性：
-一、特性检查‘特性检查’的作用类似于 Media Query，可以通过条件表达式来限定样式表是否可以起作用，只不过 Media Query 是包">
-<meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz_png/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibiaG2cmUu20jPNhA6uoTkcDdwJcWiasZf6LxXmAmCFyFia3icia2jibjqqbTQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1">
-<meta property="og:updated_time" content="2017-02-15T03:32:39.000Z">
+<meta property="og:description" content="本地服务 mock 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？
+我们先来看下本地服务 mock 的功能特性：
+
+本地 server
+
+启动一个本地的 server，一般由 Nodejs 完成
+
+服务映射
+
+定义一套服务映射列表，比如让 /apis/xxx 的所有请求映射到 /mocks/apis/ 目录下的 xxx.js 文件（也可">
+<meta property="og:image" content="https://mdn.mozillademos.org/files/12632/sw-events.png">
+<meta property="og:updated_time" content="2017-02-15T03:39:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2017年需要关注的3个CSS新特性">
-<meta name="twitter:description" content="2016已过，先预祝大家过一个好年，2017年又将开启，我们坚持初心，继续前进~
-自己打脸：其实已经很久没有发文章了~
-新的一年前端又将会有很多新东西迎接着我们，我们始终要保持一份持续学习的心态和习惯。
-今天来看下2017年最令我心动的三个CSS新特性：
-一、特性检查‘特性检查’的作用类似于 Media Query，可以通过条件表达式来限定样式表是否可以起作用，只不过 Media Query 是包">
-<meta name="twitter:image" content="http://mmbiz.qpic.cn/mmbiz_png/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibiaG2cmUu20jPNhA6uoTkcDdwJcWiasZf6LxXmAmCFyFia3icia2jibjqqbTQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1">
+<meta name="twitter:title" content="基于 Service Worker 的本地服务 mock 方案">
+<meta name="twitter:description" content="本地服务 mock 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？
+我们先来看下本地服务 mock 的功能特性：
+
+本地 server
+
+启动一个本地的 server，一般由 Nodejs 完成
+
+服务映射
+
+定义一套服务映射列表，比如让 /apis/xxx 的所有请求映射到 /mocks/apis/ 目录下的 xxx.js 文件（也可">
+<meta name="twitter:image" content="https://mdn.mozillademos.org/files/12632/sw-events.png">
     
 
     
@@ -123,14 +138,14 @@ ga('send', 'pageview');
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-new-css-feature-in-2017" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-service-worker-mock" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        2017年需要关注的3个CSS新特性
+        基于 Service Worker 的本地服务 mock 方案
         </h1>
     
 
@@ -138,48 +153,54 @@ ga('send', 'pageview');
         
         
             <div class="article-subtitle">
-                <a href="/2017/02/15/new-css-feature-in-2017/" class="article-date">
-    <time datetime="2017-02-15T03:20:30.000Z" itemprop="datePublished">2017-02-15</time>
+                <a href="/2017/02/15/service-worker-mock/" class="article-date">
+    <time datetime="2017-02-15T03:39:04.000Z" itemprop="datePublished">2017-02-15</time>
 </a>
                 
-    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/service-worker/">service-worker</a></li></ul>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>2016已过，先预祝大家过一个好年，2017年又将开启，我们坚持初心，继续前进~</p>
-<p>自己打脸：其实已经很久没有发文章了~</p>
-<p>新的一年前端又将会有很多新东西迎接着我们，我们始终要保持一份持续学习的心态和习惯。</p>
-<p>今天来看下2017年最令我心动的三个CSS新特性：</p>
-<h2 id="一、特性检查"><a href="#一、特性检查" class="headerlink" title="一、特性检查"></a>一、特性检查</h2><p>‘特性检查’的作用类似于 Media Query，可以通过条件表达式来限定样式表是否可以起作用，只不过 Media Query 是包含一个可选的媒体类型和零或多个表达式来限制使用媒体特性的样式表范围，例如 width, height, color 属性，而’特性检查’可以在表达式中去检查当前浏览器是否支持某个 css ‘属性/值’对，来看下例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@supports ( display: flex ) &#123;</div><div class="line">  .foo &#123; display: flex; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以 @support 关键字开始来申明一个特性检查，只有在浏览器支持 display: flex 的情况下，才会应用样式表</p>
-<p>另外，我们也可以使用 and / not 来组合条件表达式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@supports ( display: flexbox ) </div><div class="line">          and </div><div class="line">          ( not ( display: flex ) ) &#123;</div><div class="line">  .foo &#123; display: flexbox; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>浏览器支持情况：</p>
-<p><img src="http://mmbiz.qpic.cn/mmbiz_png/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibiaG2cmUu20jPNhA6uoTkcDdwJcWiasZf6LxXmAmCFyFia3icia2jibjqqbTQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""><br>*注：截止 2017/01/22</p>
-<h2 id="二、Grid-布局"><a href="#二、Grid-布局" class="headerlink" title="二、Grid 布局"></a>二、Grid 布局</h2><p>类似于 Flex layout，但是 Grid layout 更针对于页面布局；Grid layout 提供了一些不同于 Flex layout 的特性。</p>
-<p>Grid layout 由 Grid container(display: grid) 和 Grid Item 组成。</p>
-<p>下面我们来看下如何利用 Grid layout 实现如下布局：</p>
-<p><img src="http://mmbiz.qpic.cn/mmbiz_gif/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibXzcekNtyibFic5ZqQ01qyIFyMWyabUzw55kxRNvHGtTjhEQhIw1l4q3A/0?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></p>
-<p>HTML 部分：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;body class=&quot;hg&quot;&gt;  </div><div class="line">  &lt;header class=&quot;hg__header&quot;&gt;Title&lt;/header&gt;</div><div class="line">  &lt;main class=&quot;hg__main&quot;&gt;Content&lt;/main&gt;</div><div class="line">  &lt;aside class=&quot;hg__left&quot;&gt;Menu&lt;/aside&gt;</div><div class="line">  &lt;aside class=&quot;hg__right&quot;&gt;Ads&lt;/aside&gt;</div><div class="line">  &lt;footer class=&quot;hg__footer&quot;&gt;Footer&lt;/footer&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
-<p>CSS 部分：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">.hg__header &#123; grid-area: header; &#125;</div><div class="line">.hg__footer &#123; grid-area: footer; &#125;</div><div class="line">.hg__main &#123; grid-area: main; &#125;</div><div class="line">.hg__left &#123; grid-area: navigation; &#125;</div><div class="line">.hg__right &#123; grid-area: ads; &#125;</div><div class="line">.hg &#123;</div><div class="line">    display: grid;</div><div class="line">    grid-template-areas: &quot;header header header&quot;</div><div class="line">                         &quot;navigation main ads&quot;</div><div class="line">                         &quot;footer footer footer&quot;;</div><div class="line">    grid-template-columns: 150px 1fr 150px;</div><div class="line">    grid-template-rows: 100px </div><div class="line">                        1fr</div><div class="line">                        30px;</div><div class="line">    min-height: 100vh;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@media screen and (max-width: 600px) &#123;</div><div class="line">    .hg &#123;</div><div class="line">        grid-template-areas: &quot;header&quot;</div><div class="line">                             &quot;navigation&quot;</div><div class="line">                             &quot;main&quot;</div><div class="line">                             &quot;ads&quot;</div><div class="line">                             &quot;footer&quot;;</div><div class="line">        grid-template-columns: 100%;</div><div class="line">        grid-template-rows: 100px </div><div class="line">                            50px </div><div class="line">                            1fr</div><div class="line">                            50px </div><div class="line">                            30px;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Grid layout 给出了一个新的长度/宽度单位：fr，利用这个新单位可以很方便的定义元素在 Grid container 中剩余宽度/高度所占的比例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.hg &#123;</div><div class="line">    grid-template-columns: 150px 1fr 150px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面这个例子，就申明了 .hg 元素占据父元素（父元素是 grid 布局）剩余空间的 100%。</p>
-<p>我们还可以通过 grid-gap 属性来精确申明 grid container 占据父元素宽度/高度的百分比例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">.hg &#123;</div><div class="line">    display: grid;</div><div class="line">    grid-column-gap: 5%; // grid-column-gap 代表宽度；grid-row-gap 代表高度</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>浏览器支持情况：</p>
-<p><img src="http://mmbiz.qpic.cn/mmbiz_png/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibTgdtPadqZRoNjCEsw93SPzxNS4r5byZm6G4fjSP7lWNLNE0Z4iccsYA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""><br>*注：截止 2017/01/22</p>
-<h2 id="三、内置变量"><a href="#三、内置变量" class="headerlink" title="三、内置变量"></a>三、内置变量</h2><p>在 Less/Sass 中使用得最多的特性——变量，现在已经可以原生支持。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">:root &#123;</div><div class="line">  --theme-colour: cornflowerblue;</div><div class="line">&#125;</div><div class="line">h1 &#123; color: var(--theme-colour); &#125;  </div><div class="line">a &#123; color: var(--theme-colour); &#125;  </div><div class="line">strong &#123; color: var(--theme-colour); &#125;</div></pre></td></tr></table></figure>
-<p>不仅如此，这些变量还可以通过 Javascript 动态修改：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">const rootEl = document.documentElement;  </div><div class="line">rootEl.style.setProperty(&apos;--theme-colour&apos;, &apos;plum&apos;);</div></pre></td></tr></table></figure>
-<p>浏览器支持情况：</p>
-<p><img src="http://mmbiz.qpic.cn/mmbiz_png/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibCSgIyxia8tcyWzuaT6KFTluk8zAuIL2zSCqxcvyIDic2RxZ7Ify5z0lA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""><br>*注：截止 2017/01/22</p>
+            <p>本地服务 <code>mock</code> 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？</p>
+<p>我们先来看下本地服务 <code>mock</code> 的功能特性：</p>
+<ul>
+<li>本地 <code>server</code></li>
+</ul>
+<p>启动一个本地的 <code>server</code>，一般由 <code>Nodejs</code> 完成</p>
+<ul>
+<li>服务映射</li>
+</ul>
+<p>定义一套服务映射列表，比如让 <code>/apis/xxx</code> 的所有请求映射到 <code>/mocks/apis/</code> 目录下的 <code>xxx.js</code> 文件（也可以是一个 <code>json</code> 静态文件）</p>
+<ul>
+<li>服务代理</li>
+</ul>
+<p>如果需要实现服务代理，需要 <code>Nodejs</code> 帮忙实现服务的代理转发，比如 <code>/apis/xxx</code> 代理到 <code>http://my.service.com/apis/</code></p>
+<p>现有本地服务 <code>mock</code> 方案大部分都基于以上功能特性进行实现，实现思路也基本是依赖本地的 <code>Nodejs server</code>，依靠 <code>Nodejs</code> 实现一套可配置化的服务映射 &amp; 代理功能</p>
+<p>而我们今天介绍的一款实现方案是更具前瞻性的解决思路，依赖的技术点：<code>service worker</code>，依赖 <code>service worker</code> 方便的拦截并修改访问和资源请求</p>
+<h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p><code>Service worker</code> 是一个注册在指定源和路径下的事件驱动 <code>worker</code>。它采用 <code>JavaScript</code> 控制关联的页面或者网站，拦截并修改访问和资源请求，细粒度地缓存资源，你也可以将它理解为一个独立运行在浏览器和网络之间的一个代理服务器</p>
+<p>本文不会详细的讲解 <code>Service Worker</code> 的使用方法，详细的介绍请参见 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API" target="_blank" rel="external">Service Worker API</a></p>
+<p><code>Service Worker</code> 与主进程之间通过事件进行通信，支持如下事件类型：</p>
+<p><img src="https://mdn.mozillademos.org/files/12632/sw-events.png" alt=""></p>
+<p>而我们主要是通过 <code>fetch</code> 事件实现了网络请求拦截，而有了 <code>fetch</code> 事件之后我们可以做些什么呢？</p>
+<p><img src="https://mdn.mozillademos.org/files/12634/sw-fetch.png" alt=""></p>
+<p>我们可以看到，通过 <code>fetch</code> 事件我们拦截到了浏览器中发出的所有请求，然后我们就可以完全自定义本次请求的返回内容，可以从缓存中获取、也可以代理到网络请求、也可以完全由代码返回</p>
+<p>这就是利用 <code>Service Worker</code> 实现本地服务 <code>mock</code> 的基本原理</p>
+<h2 id="基于-Service-Worker-服务-mock-方案的优势"><a href="#基于-Service-Worker-服务-mock-方案的优势" class="headerlink" title="基于 Service Worker 服务 mock 方案的优势"></a>基于 Service Worker 服务 mock 方案的优势</h2><ul>
+<li>不需要启动一个本地 <code>server</code></li>
+<li>完全可编程的请求拦截规则</li>
+<li>完全可编程的 <code>mock</code> 数据</li>
+</ul>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><ul>
+<li>首先在页面注册一个 <code>Service Worker</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="string">'serviceWorker'</span> <span class="keyword">in</span> navigator) &#123;</div><div class="line">  navigator.serviceWorker.register(<span class="string">'./serviceWorker.js'</span>).then(<span class="function">(<span class="params">reg</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'register a service worker: '</span>, reg);</div><div class="line">  &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'err: '</span>, err);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在 serviceWorker.js 中就可以完全自定义请求返回内容了</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> cacheUrl = [</div><div class="line">  <span class="string">'/index.css'</span>,</div><div class="line">  <span class="string">'/index.html'</span></div><div class="line">];</div><div class="line"><span class="keyword">const</span> cacheName = <span class="string">'my-site-cache'</span>;</div><div class="line"></div><div class="line"><span class="comment">// install 阶段</span></div><div class="line">self.addEventListener(<span class="string">'install'</span>, (event) =&gt; &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Service worker event: install'</span>);</div><div class="line">  event.waitUntil(</div><div class="line">    caches.open(cacheName).then(<span class="function">(<span class="params">cache</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'open cache'</span>);</div><div class="line">      <span class="keyword">return</span> cache.addAll(cacheUrl);</div><div class="line">    &#125;)</div><div class="line">  );</div><div class="line">&#125;);</div><div class="line"></div><div class="line">self.addEventListener(<span class="string">'fetch'</span>, (event) =&gt; &#123;</div><div class="line">  event.respondWith(caches.match(event.request).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">if</span> (res) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'match'</span>);</div><div class="line">      <span class="keyword">return</span> res;</div><div class="line">    &#125;</div><div class="line">		<span class="comment">// 缓存中不存在，再进行网络请求</span></div><div class="line">    <span class="keyword">return</span> fetch(event.request);</div><div class="line">  &#125;));</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="Service-mocker"><a href="#Service-mocker" class="headerlink" title="Service-mocker"></a>Service-mocker</h2><p>由于 <code>Service Worker</code> 由于 <code>Service Worker</code> 现在还处于草案阶段，只有 <code>Chrome</code> 和 <code>Firefox</code> 浏览器实现了 <code>Service Worker</code>，如果需要在本地各个浏览器中兼容实现，可以借鉴 <a href="https://github.com/service-mocker/service-mocker" target="_blank" rel="external">service-mocker</a></p>
 
         </div>
         <footer class="article-footer">
@@ -187,7 +208,7 @@ ga('send', 'pageview');
 
 
 
-    <a data-url="https://harbin1053020115.github.io/2017/02/15/new-css-feature-in-2017/" data-id="ciz6ew2wf0003qbbhjdjkc97p" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+    <a data-url="https://harbin1053020115.github.io/2017/02/15/service-worker-mock/" data-id="ciz6ew2wj0004qbbh9dhl80os" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -323,20 +344,20 @@ ga('send', 'pageview');
         
 <nav id="article-nav">
     
-        <a href="/2017/02/15/redux-best-practise/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2017/02/15/redux-state-orm/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption">+ récent</strong>
         <p class="article-nav-title">
         
-            React &amp; Redux 最佳实践
+            Redux最佳实践之关系型State对象管理
         
         </p>
         <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
     </a>
     
     
-        <a href="/2016/11/22/javascript-garbage-collection/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/02/15/redux-best-practise/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">- récent</strong>
-        <p class="article-nav-title">Javascript 垃圾回收</p>
+        <p class="article-nav-title">React &amp; Redux 最佳实践</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -529,7 +550,7 @@ ga('send', 'pageview');
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://harbin1053020115.github.io/2017/02/15/new-css-feature-in-2017/';
+    var disqus_url = 'https://harbin1053020115.github.io/2017/02/15/service-worker-mock/';
     
     (function() {
     var dsq = document.createElement('script');

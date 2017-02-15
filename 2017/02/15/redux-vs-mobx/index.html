@@ -3,18 +3,45 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archive: 2017/2 | 猿人</title>
+    <title>React state管理解决方案对比(Redux vs Mobx) | 猿人</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="程序员的一个">
-<meta property="og:type" content="website">
-<meta property="og:title" content="猿人">
-<meta property="og:url" content="https://harbin1053020115.github.io/archives/2017/02/index.html">
+        <meta name="keywords" content="redux mobx" />
+    
+    <meta name="description" content="Redux 和 Mobx 是两个比较流行的 react state 管理解决方案，本文主要来对比下两个解决方案及其各自适合的使用场景。
+不同之处redux
+函数式编程
+
+函数式变成已经变得非常流行，但是大多数开发者更熟悉的是面向对象编程模式，所以 redux 对于这些开发者来说具有一定的起步成本
+
+纯函数
+
+利用函数式编程中的纯函数方式，纯函数接受输入参数，输出输出对象，且不依赖任何外部属性、对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React state管理解决方案对比(Redux vs Mobx)">
+<meta property="og:url" content="https://harbin1053020115.github.io/2017/02/15/redux-vs-mobx/index.html">
 <meta property="og:site_name" content="猿人">
-<meta property="og:description" content="程序员的一个">
+<meta property="og:description" content="Redux 和 Mobx 是两个比较流行的 react state 管理解决方案，本文主要来对比下两个解决方案及其各自适合的使用场景。
+不同之处redux
+函数式编程
+
+函数式变成已经变得非常流行，但是大多数开发者更熟悉的是面向对象编程模式，所以 redux 对于这些开发者来说具有一定的起步成本
+
+纯函数
+
+利用函数式编程中的纯函数方式，纯函数接受输入参数，输出输出对象，且不依赖任何外部属性、对象">
+<meta property="og:updated_time" content="2017-02-15T03:41:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="猿人">
-<meta name="twitter:description" content="程序员的一个">
+<meta name="twitter:title" content="React state管理解决方案对比(Redux vs Mobx)">
+<meta name="twitter:description" content="Redux 和 Mobx 是两个比较流行的 react state 管理解决方案，本文主要来对比下两个解决方案及其各自适合的使用场景。
+不同之处redux
+函数式编程
+
+函数式变成已经变得非常流行，但是大多数开发者更熟悉的是面向对象编程模式，所以 redux 对于这些开发者来说具有一定的起步成本
+
+纯函数
+
+利用函数式编程中的纯函数方式，纯函数接受输入参数，输出输出对象，且不依赖任何外部属性、对象">
     
 
     
@@ -102,291 +129,159 @@ ga('send', 'pageview');
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>Archive: 2017/2
+    Aucune catégorie
     </h1>
 </div>
                         <div class="main-body-content">
-                            
+                            <article id="post-redux-vs-mobx" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        React state管理解决方案对比(Redux vs Mobx)
+        </h1>
+    
 
-    
-    
+            </header>
         
         
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
+            <div class="article-subtitle">
+                <a href="/2017/02/15/redux-vs-mobx/" class="article-date">
+    <time datetime="2017-02-15T03:41:36.000Z" itemprop="datePublished">2017-02-15</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux-mobx/">redux mobx</a></li></ul>
+
             </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
         
-        <a href="/2017/02/15/redux-vs-mobx/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-vs-mobx/">0</span>
-    
-</span>
+        <div class="article-entry" itemprop="articleBody">
+            <p><code>Redux</code> 和 <code>Mobx</code> 是两个比较流行的 <code>react state</code> 管理解决方案，本文主要来对比下两个解决方案及其各自适合的使用场景。</p>
+<h2 id="不同之处"><a href="#不同之处" class="headerlink" title="不同之处"></a>不同之处</h2><h3 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h3><ul>
+<li>函数式编程</li>
+</ul>
+<p>函数式变成已经变得非常流行，但是大多数开发者更熟悉的是面向对象编程模式，所以 <code>redux</code> 对于这些开发者来说具有一定的起步成本</p>
+<ul>
+<li>纯函数</li>
+</ul>
+<p>利用函数式编程中的纯函数方式，纯函数接受输入参数，输出输出对象，且不依赖任何外部属性、对象；纯函数在接受固定的输入参数之后，一定会返回相同的输出值，并且不会产生任何 <code>side effect</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(state, action) =&gt; newState</div></pre></td></tr></table></figure>
+<ul>
+<li>Immutable</li>
+</ul>
+<p><code>redux</code> 规定 <code>state</code> 应该是 <code>immutable</code> 的，每次对于 <code>state</code> 的修改都应该返回一个新 <code>state</code> 对象，而不是直接修改 <code>state</code> 对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addAuthor</span>(<span class="params">state, action</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> [ ...state.authors, action.author ];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Normalized State</li>
+</ul>
+<p>在<a href="https://lark.alipay.com/ermin.zem/report/yhr71y/edit" target="_blank" rel="external">《Redux最佳实践之关系型State对象管理》</a>一文中介绍了 <code>redux</code> 推荐使用类似数据库的关系型数据结构来存储 <code>state</code> 数据</p>
+<ul>
+<li>Side Effects</li>
+</ul>
+<p>类似异步请求等无法满足纯函数解决方式的场景，可参考：</p>
+<ul>
+<li>redux-thunk</li>
+<li>redux-promise</li>
+<li>redux-saga</li>
+<li>redux-obserable</li>
+</ul>
+<p>等解决方案</p>
+<h3 id="mobx"><a href="#mobx" class="headerlink" title="mobx"></a>mobx</h3><p><code>mobx</code> 深受 <code>Object-oriented Programming</code> 和 <code>Reactive Programming</code>，<code>mobx</code> 可以通过类的方式声明一个数据对象，再通过 <code>ES7 observable</code> 的方式让对象属性具备可监听属性，一旦其值改变，就可以得知数据变更</p>
+<p>由于 <code>observable</code> 的特性，<code>mobx</code> 对于数据的修改可以通过更直接的方式进行：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addAuthor</span>(<span class="params">author</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.authors.push(author);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>数据修改之后，<code>mbox</code> 借助 <code>observable</code> 的特性可以获取数据变更，再告知 <code>react component</code> 更新视图，类似 <code>vue.js</code> 的 <code>MVVM</code> 模式，所以在 <code>mobx</code> 中只存在 <code>state =&gt; view</code> 两层</p>
+<h2 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h2><h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>性能是 <code>mobx</code> 的一大特色，借助 <a href="https://github.com/mobxjs/mobx-react" target="_blank" rel="external"><code>mobx-react</code></a>，<code>mobx</code> 可以做到<code>render需要render的组件</code>，只有相关的状态变更才会影响 <code>view</code> 的重新渲染</p>
+<p>这里面的原理也比较粗暴，<code>mobx</code> 重写了 <code>react</code> 的 <code>shouldComponentUpdate</code> 方法，只有在 <code>react component</code> 关联的 <code>observable</code> 属性/对象变更之后会才执行重新渲染</p>
+<p><code>mobx</code> 不需要关注性能优化！这个是一个很屌的特性。。。</p>
+<h3 id="OOP-vs-Pure-Function"><a href="#OOP-vs-Pure-Function" class="headerlink" title="OOP vs Pure Function"></a>OOP vs Pure Function</h3><p>两种完全不同的编程方式，<code>redux</code> 只允许使用 <code>action</code> 来触发 <code>reducer</code> 对于 <code>state</code> 的变更，而 <code>reducer</code> 是一个 <code>Pure Function</code></p>
+<p><code>mobx</code> 可以直接调用对象的方法进行修改，或直接修改暴露出来的对象属性；新版本 <code>mobx</code> 也借鉴了 <code>redux</code> 的 <code>action</code> 的概念，当申明一个应用为严格模式的情况下，也只能通过 <code>action</code> 来触发 <code>state</code> 变更</p>
+<h2 id="个人小结"><a href="#个人小结" class="headerlink" title="个人小结"></a>个人小结</h2><h3 id="学习曲线"><a href="#学习曲线" class="headerlink" title="学习曲线"></a>学习曲线</h3><p><code>mobx</code> 只引入了 <code>observable</code> 的概念，而 <code>redux</code> 则包含 <code>action</code> =&gt; <code>reducer</code>、函数式编程等概念，从前期学习成本上来说，<code>mobx</code> 无疑更适合入门</p>
+<p>但是，<code>mobx</code> 利用 <code>observable</code> 封装了很多实现细节，而这些实现细节是我们无法轻松了解的；相反，<code>redux</code> 暴露出来的使用方式就是其内部原理，所以相对来说，两者的学习曲线一个是前面轻松、后面陡峭，另一个则是前面陡峭、后面轻松</p>
+<h3 id="开发效率"><a href="#开发效率" class="headerlink" title="开发效率"></a>开发效率</h3><p>小型项目更适合使用 <code>mobx</code>，更熟悉的开发模式以及更少量的非业务代码；大型项目来说，两者的开发效率应该差别不大</p>
+<h3 id="规范-vs-自由"><a href="#规范-vs-自由" class="headerlink" title="规范 vs 自由"></a>规范 vs 自由</h3><p>使用 <code>redux</code> 开发应用，由于限定了 <code>action</code> =&gt; <code>reducer</code> =&gt; <code>state</code> 的架构层级，对应的文件目录结构也已经规范如此；而 <code>mobx</code> 则只规范了 <code>react component</code> 的 <code>observable</code> 范式，其它完全没有规范</p>
+<p>在大型的多人开发的项目中，更规范的开发范式可以减少沟通成本，也可以减少一些不必要的犯错机会</p>
 
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:41:36.000Z" itemprop="datePublished">2017-02-15</time></p>
         </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-vs-mobx/">React state管理解决方案对比(Redux vs Mobx)</a>
-        </h1>
-    
+        <footer class="article-footer">
+            
 
-        <p class="article-excerpt">
-            Redux 和 Mobx 是两个比较流行的 react state 管理解决方案，本文主要来对比下两个解决方案及其各自适合的使用场景。
-不同之处redux
-函数式编程
 
-函数式变成已经变得非常流行，但是大多数开发者更熟悉的是面向对象编程模式，所以 redux 对于这些开发者来说具有一定的起步成本
 
-纯函数
+    <a data-url="https://harbin1053020115.github.io/2017/02/15/redux-vs-mobx/" data-id="ciz6ew2wu0009qbbhwny8v159" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
-利用函数式编程中的纯函数方式，纯函数接受输入参数，输出输出对象，且不依赖任何外部属性、对象
-        </p>
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/redux-state-orm/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-state-orm/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:40:41.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-state-orm/">Redux最佳实践之关系型State对象管理</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            客户端应用复杂度越来越高，我们经常会在应用中涉及到需要处理嵌套结构/关系型数据结构。
-Redux 推荐使用结构化的形式存储 state，对于使用 redux 应用来说，意味着我们的 state 结构将会类似关系型数据库一样。
-场景一个管理成员 Todo List 的应用，我们拥有一个成员列表，每一个成员拥有一个 Todo List 列表，每一个 Todo Item 拥有 Todo Tags
-Liv
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/service-worker-mock/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://mdn.mozillademos.org/files/12632/sw-events.png)" alt="基于 Service Worker 的本地服务 mock 方案" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/service-worker-mock/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:39:04.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/service-worker-mock/">基于 Service Worker 的本地服务 mock 方案</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            本地服务 mock 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？
-我们先来看下本地服务 mock 的功能特性：
-
-本地 server
-
-启动一个本地的 server，一般由 Nodejs 完成
-
-服务映射
-
-定义一套服务映射列表，比如让 /apis/xxx 的所有请求映射到 /mocks/apis/ 目录下的 xxx.js 文件（也可
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/redux-best-practise/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://camo.githubusercontent.com/068c4ff126977b861cff3338428bdde6927f7dad/68747470733a2f2f6f732e616c697061796f626a656374732e636f6d2f726d73706f7274616c2f43684d775a42755a6c614c725377652e706e67)" alt="React &amp; Redux 最佳实践" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-best-practise/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:36:55.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-best-practise/">React &amp; Redux 最佳实践</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            业界方案react + react-router + redux + react-router-redux + redux-saga(可选)
-关于异步处理redux 可解决了同步方式的 Action &lt;=&gt; State 业务逻辑处理，异步处理业界也有相应的解决方案。比如：
-
-redux-thunk
-redux-promise
-
-通过 action creator 的方式返回一个函数来封
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/new-css-feature-in-2017/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://mmbiz.qpic.cn/mmbiz_png/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibiaG2cmUu20jPNhA6uoTkcDdwJcWiasZf6LxXmAmCFyFia3icia2jibjqqbTQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1)" alt="2017年需要关注的3个CSS新特性" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/new-css-feature-in-2017/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:20:30.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/new-css-feature-in-2017/">2017年需要关注的3个CSS新特性</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            2016已过，先预祝大家过一个好年，2017年又将开启，我们坚持初心，继续前进~
-自己打脸：其实已经很久没有发文章了~
-新的一年前端又将会有很多新东西迎接着我们，我们始终要保持一份持续学习的心态和习惯。
-今天来看下2017年最令我心动的三个CSS新特性：
-一、特性检查‘特性检查’的作用类似于 Media Query，可以通过条件表达式来限定样式表是否可以起作用，只不过 Media Query 是包
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
-
+    </section>
 
                         </div>
                     </section>
@@ -446,6 +341,19 @@ redux-promise
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017/02/15/redux-state-orm/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">- récent</strong>
+        <p class="article-nav-title">Redux最佳实践之关系型State对象管理</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -633,11 +541,13 @@ redux-promise
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'https://harbin1053020115.github.io/2017/02/15/redux-vs-mobx/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>

@@ -3,18 +3,30 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archive: 2017/2 | 猿人</title>
+    <title>Redux最佳实践之关系型State对象管理 | 猿人</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="程序员的一个">
-<meta property="og:type" content="website">
-<meta property="og:title" content="猿人">
-<meta property="og:url" content="https://harbin1053020115.github.io/archives/2017/02/index.html">
+        <meta name="keywords" content="redux orm" />
+    
+    <meta name="description" content="客户端应用复杂度越来越高，我们经常会在应用中涉及到需要处理嵌套结构/关系型数据结构。
+Redux 推荐使用结构化的形式存储 state，对于使用 redux 应用来说，意味着我们的 state 结构将会类似关系型数据库一样。
+场景一个管理成员 Todo List 的应用，我们拥有一个成员列表，每一个成员拥有一个 Todo List 列表，每一个 Todo Item 拥有 Todo Tags
+Liv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux最佳实践之关系型State对象管理">
+<meta property="og:url" content="https://harbin1053020115.github.io/2017/02/15/redux-state-orm/index.html">
 <meta property="og:site_name" content="猿人">
-<meta property="og:description" content="程序员的一个">
+<meta property="og:description" content="客户端应用复杂度越来越高，我们经常会在应用中涉及到需要处理嵌套结构/关系型数据结构。
+Redux 推荐使用结构化的形式存储 state，对于使用 redux 应用来说，意味着我们的 state 结构将会类似关系型数据库一样。
+场景一个管理成员 Todo List 的应用，我们拥有一个成员列表，每一个成员拥有一个 Todo List 列表，每一个 Todo Item 拥有 Todo Tags
+Liv">
+<meta property="og:updated_time" content="2017-02-15T03:41:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="猿人">
-<meta name="twitter:description" content="程序员的一个">
+<meta name="twitter:title" content="Redux最佳实践之关系型State对象管理">
+<meta name="twitter:description" content="客户端应用复杂度越来越高，我们经常会在应用中涉及到需要处理嵌套结构/关系型数据结构。
+Redux 推荐使用结构化的形式存储 state，对于使用 redux 应用来说，意味着我们的 state 结构将会类似关系型数据库一样。
+场景一个管理成员 Todo List 的应用，我们拥有一个成员列表，每一个成员拥有一个 Todo List 列表，每一个 Todo Item 拥有 Todo Tags
+Liv">
     
 
     
@@ -102,291 +114,147 @@ ga('send', 'pageview');
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>Archive: 2017/2
+    Aucune catégorie
     </h1>
 </div>
                         <div class="main-body-content">
-                            
+                            <article id="post-redux-state-orm" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Redux最佳实践之关系型State对象管理
+        </h1>
+    
 
-    
-    
+            </header>
         
         
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
+            <div class="article-subtitle">
+                <a href="/2017/02/15/redux-state-orm/" class="article-date">
+    <time datetime="2017-02-15T03:40:41.000Z" itemprop="datePublished">2017-02-15</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux-orm/">redux orm</a></li></ul>
+
             </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
         
-        <a href="/2017/02/15/redux-vs-mobx/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-vs-mobx/">0</span>
-    
-</span>
+        <div class="article-entry" itemprop="articleBody">
+            <p>客户端应用复杂度越来越高，我们经常会在应用中涉及到需要处理嵌套结构/关系型数据结构。</p>
+<p><code>Redux</code> 推荐使用结构化的形式存储 <code>state</code>，对于使用 <code>redux</code> 应用来说，意味着我们的 <code>state</code> 结构将会类似关系型数据库一样。</p>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>一个管理成员 <code>Todo List</code> 的应用，我们拥有一个成员列表，每一个成员拥有一个 <code>Todo List</code> 列表，每一个 <code>Todo Item</code> 拥有 <code>Todo Tags</code></p>
+<p><a href="http://tommikaikkonen.github.io/redux-orm-primer" target="_blank" rel="external">Live demo online</a></p>
+<h3 id="state-数据结构"><a href="#state-数据结构" class="headerlink" title="state 数据结构"></a><code>state</code> 数据结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">**User**</div><div class="line">- id: integer</div><div class="line">- name: string</div><div class="line"></div><div class="line">**Todo**</div><div class="line">- id: integer</div><div class="line">- text: string</div><div class="line">- done: boolean</div><div class="line">- user: foreign key to User</div><div class="line">- tags: many-to-many relation with Tag</div><div class="line"></div><div class="line">**Tag**</div><div class="line">- name: string</div></pre></td></tr></table></figure>
+<p><code>User</code> 用户模型，由 <code>id</code> 和 <code>name</code> 两个字段组成；</p>
+<p><code>Tag</code> 标签模型，由 <code>name</code> 字段组成；</p>
+<p><code>Todo</code> 模型：其中 <code>user</code> 字段关联用户，标识该 <code>Todo Item</code> 属于哪个用户；<code>tags</code> 字段关联标签列表，与 <code>Tag</code> 模型是多对多的关系。</p>
+<p>可以看到设计好之后的 <code>state</code> 数据结构类似我们设计数据库结构，数据不会存在冗余的情况，我们通过关联的方式来管理数据之间的对应关系。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>设计好应用的 <code>state</code> 数据结构之后，我们就会发现在 <code>reducer</code> 中存在一些不方便性：</p>
+<p>当我们需要修改一个 <code>Todo Item</code> 的某个 <code>Tag</code> 时，发现该 <code>Tag</code> 的数据并没有传递给我们的 <code>reducer</code>，当然我们可以通过以下方式来解决这个问题：</p>
+<ul>
+<li>引入 <code>redux-thunk</code> 拦截 <code>action</code>，并通过 <code>getState</code> 方法查询到 <code>Tag</code> 信息，传递给 <code>reducer</code></li>
+<li>全局单个 <code>reducer</code></li>
+<li>通过额外的参数传递所需的 <code>state</code> 到 <code>reducer</code></li>
+</ul>
+<p>以上解决方案都有其不优雅之处。</p>
+<h3 id="主角出场"><a href="#主角出场" class="headerlink" title="主角出场"></a>主角出场</h3><blockquote>
+<p>Redux-ORM provides an abstraction over the “relational database” state object. You define a schema through models, and start database sessions by passing a Schema instance the relational database state object. Reducers and selectors are able to respectively update and query the whole database through an immutable ORM API, which makes your code more expressive, readable and manageable.</p>
+</blockquote>
+<p><code>Redux-orm</code> 提供了一种对于关系型数据库结构形式的 <code>state</code> 对象的抽象方法。</p>
+<p>通过 <code>models</code> 来定义数据关联关系，引用这些 <code>models</code> 并实例化成一个 <code>schema</code> 对象来开启一个数据库会话，在这个会话中，<code>Reducer</code> 和 <code>selector</code> 就可以各自去实现对于整个关联数据库的操作，<code>redux-orm</code> 提供了一套 <code>immutable</code> 的 <code>ORM API</code> 来让我们更方便的管理关联数据库操作。</p>
+<ul>
+<li><a href="https://github.com/tommikaikkonen/redux-orm" target="_blank" rel="external">redux-orm官网</a></li>
+<li><a href="https://github.com/tommikaikkonen/redux-orm-primer" target="_blank" rel="external">Todo List Demo</a></li>
+</ul>
+<h3 id="个人小结"><a href="#个人小结" class="headerlink" title="个人小结"></a>个人小结</h3><p><code>redux-orm</code> 解决了关系型 <code>state</code> 对象的管理问题，并且提供了一套 <code>ORM API</code> 帮助我们更方便的进行关系型 <code>state</code> 对象的操作。</p>
+<p>启示：</p>
+<ul>
+<li><code>redux-orm</code> 传输了一个理念：前端应用的数据结构设计也需要更加合理化、更加靠近后端数据库设计模式，避免数据冗余</li>
+<li>引入 <code>redux-orm</code> 之后，整个开发链路之后又加入了一层。。。开发成本增加，另外如何整合到 <code>dva</code> 之后也是一个问题</li>
+</ul>
 
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:41:36.000Z" itemprop="datePublished">2017-02-15</time></p>
         </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-vs-mobx/">React state管理解决方案对比(Redux vs Mobx)</a>
-        </h1>
-    
+        <footer class="article-footer">
+            
 
-        <p class="article-excerpt">
-            Redux 和 Mobx 是两个比较流行的 react state 管理解决方案，本文主要来对比下两个解决方案及其各自适合的使用场景。
-不同之处redux
-函数式编程
 
-函数式变成已经变得非常流行，但是大多数开发者更熟悉的是面向对象编程模式，所以 redux 对于这些开发者来说具有一定的起步成本
 
-纯函数
+    <a data-url="https://harbin1053020115.github.io/2017/02/15/redux-state-orm/" data-id="ciz6ew2wn0005qbbh7q13wzzu" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
-利用函数式编程中的纯函数方式，纯函数接受输入参数，输出输出对象，且不依赖任何外部属性、对象
-        </p>
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/redux-state-orm/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-state-orm/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:40:41.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-state-orm/">Redux最佳实践之关系型State对象管理</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            客户端应用复杂度越来越高，我们经常会在应用中涉及到需要处理嵌套结构/关系型数据结构。
-Redux 推荐使用结构化的形式存储 state，对于使用 redux 应用来说，意味着我们的 state 结构将会类似关系型数据库一样。
-场景一个管理成员 Todo List 的应用，我们拥有一个成员列表，每一个成员拥有一个 Todo List 列表，每一个 Todo Item 拥有 Todo Tags
-Liv
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/service-worker-mock/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://mdn.mozillademos.org/files/12632/sw-events.png)" alt="基于 Service Worker 的本地服务 mock 方案" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/service-worker-mock/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:39:04.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/service-worker-mock/">基于 Service Worker 的本地服务 mock 方案</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            本地服务 mock 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？
-我们先来看下本地服务 mock 的功能特性：
-
-本地 server
-
-启动一个本地的 server，一般由 Nodejs 完成
-
-服务映射
-
-定义一套服务映射列表，比如让 /apis/xxx 的所有请求映射到 /mocks/apis/ 目录下的 xxx.js 文件（也可
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/redux-best-practise/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://camo.githubusercontent.com/068c4ff126977b861cff3338428bdde6927f7dad/68747470733a2f2f6f732e616c697061796f626a656374732e636f6d2f726d73706f7274616c2f43684d775a42755a6c614c725377652e706e67)" alt="React &amp; Redux 最佳实践" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/redux-best-practise/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:36:55.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/redux-best-practise/">React &amp; Redux 最佳实践</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            业界方案react + react-router + redux + react-router-redux + redux-saga(可选)
-关于异步处理redux 可解决了同步方式的 Action &lt;=&gt; State 业务逻辑处理，异步处理业界也有相应的解决方案。比如：
-
-redux-thunk
-redux-promise
-
-通过 action creator 的方式返回一个函数来封
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/02/15/new-css-feature-in-2017/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://mmbiz.qpic.cn/mmbiz_png/4uMHwRKhLSJDPB417VCZjqUVLWFh5ib1ibiaG2cmUu20jPNhA6uoTkcDdwJcWiasZf6LxXmAmCFyFia3icia2jibjqqbTQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1)" alt="2017年需要关注的3个CSS新特性" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://harbin1053020115.github.io/2017/02/15/new-css-feature-in-2017/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2017-02-15T03:20:30.000Z" itemprop="datePublished">2017-02-15</time></p>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/02/15/new-css-feature-in-2017/">2017年需要关注的3个CSS新特性</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            2016已过，先预祝大家过一个好年，2017年又将开启，我们坚持初心，继续前进~
-自己打脸：其实已经很久没有发文章了~
-新的一年前端又将会有很多新东西迎接着我们，我们始终要保持一份持续学习的心态和习惯。
-今天来看下2017年最令我心动的三个CSS新特性：
-一、特性检查‘特性检查’的作用类似于 Media Query，可以通过条件表达式来限定样式表是否可以起作用，只不过 Media Query 是包
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
-
+    </section>
 
                         </div>
                     </section>
@@ -446,6 +314,29 @@ redux-promise
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/02/15/redux-vs-mobx/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">+ récent</strong>
+        <p class="article-nav-title">
+        
+            React state管理解决方案对比(Redux vs Mobx)
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/02/15/service-worker-mock/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">- récent</strong>
+        <p class="article-nav-title">基于 Service Worker 的本地服务 mock 方案</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -633,11 +524,13 @@ redux-promise
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'https://harbin1053020115.github.io/2017/02/15/redux-state-orm/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
