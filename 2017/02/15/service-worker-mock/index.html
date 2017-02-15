@@ -6,7 +6,7 @@
     <title>基于 Service Worker 的本地服务 mock 方案 | 猿人</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="service-worker" />
+        <meta name="keywords" content="service worker" />
     
     <meta name="description" content="本地服务 mock 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？
 我们先来看下本地服务 mock 的功能特性：
@@ -32,8 +32,8 @@
 服务映射
 
 定义一套服务映射列表，比如让 /apis/xxx 的所有请求映射到 /mocks/apis/ 目录下的 xxx.js 文件（也可">
-<meta property="og:image" content="https://mdn.mozillademos.org/files/12632/sw-events.png">
-<meta property="og:updated_time" content="2017-02-15T03:39:40.000Z">
+<meta property="og:image" content="https://infrequently.org/14/html5devconf_oct/images/sw_model.png">
+<meta property="og:updated_time" content="2017-02-15T07:20:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于 Service Worker 的本地服务 mock 方案">
 <meta name="twitter:description" content="本地服务 mock 是本地开发过程中比较常见的工程化需求，业界也已经有了很多解决方案，为什么本文还要来探讨这个已成型的技术方案？
@@ -46,7 +46,7 @@
 服务映射
 
 定义一套服务映射列表，比如让 /apis/xxx 的所有请求映射到 /mocks/apis/ 目录下的 xxx.js 文件（也可">
-<meta name="twitter:image" content="https://mdn.mozillademos.org/files/12632/sw-events.png">
+<meta name="twitter:image" content="https://infrequently.org/14/html5devconf_oct/images/sw_model.png">
     
 
     
@@ -157,7 +157,7 @@ ga('send', 'pageview');
     <time datetime="2017-02-15T03:39:04.000Z" itemprop="datePublished">2017-02-15</time>
 </a>
                 
-    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/service-worker/">service-worker</a></li></ul>
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/service-worker/">service worker</a></li></ul>
 
             </div>
         
@@ -178,8 +178,9 @@ ga('send', 'pageview');
 </ul>
 <p>如果需要实现服务代理，需要 <code>Nodejs</code> 帮忙实现服务的代理转发，比如 <code>/apis/xxx</code> 代理到 <code>http://my.service.com/apis/</code></p>
 <p>现有本地服务 <code>mock</code> 方案大部分都基于以上功能特性进行实现，实现思路也基本是依赖本地的 <code>Nodejs server</code>，依靠 <code>Nodejs</code> 实现一套可配置化的服务映射 &amp; 代理功能</p>
-<p>而我们今天介绍的一款实现方案是更具前瞻性的解决思路，依赖的技术点：<code>service worker</code>，依赖 <code>service worker</code> 方便的拦截并修改访问和资源请求</p>
+<p>而我们今天介绍的一款实现方案是更具前瞻性的解决思路，依赖的技术点：<code>service worker</code>，可方便的实现拦截并修改访问和资源请求的功能</p>
 <h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p><code>Service worker</code> 是一个注册在指定源和路径下的事件驱动 <code>worker</code>。它采用 <code>JavaScript</code> 控制关联的页面或者网站，拦截并修改访问和资源请求，细粒度地缓存资源，你也可以将它理解为一个独立运行在浏览器和网络之间的一个代理服务器</p>
+<p><img src="https://infrequently.org/14/html5devconf_oct/images/sw_model.png" alt=""></p>
 <p>本文不会详细的讲解 <code>Service Worker</code> 的使用方法，详细的介绍请参见 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API" target="_blank" rel="external">Service Worker API</a></p>
 <p><code>Service Worker</code> 与主进程之间通过事件进行通信，支持如下事件类型：</p>
 <p><img src="https://mdn.mozillademos.org/files/12632/sw-events.png" alt=""></p>
@@ -199,7 +200,7 @@ ga('send', 'pageview');
 <ul>
 <li>在 serviceWorker.js 中就可以完全自定义请求返回内容了</li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> cacheUrl = [</div><div class="line">  <span class="string">'/index.css'</span>,</div><div class="line">  <span class="string">'/index.html'</span></div><div class="line">];</div><div class="line"><span class="keyword">const</span> cacheName = <span class="string">'my-site-cache'</span>;</div><div class="line"></div><div class="line"><span class="comment">// install 阶段</span></div><div class="line">self.addEventListener(<span class="string">'install'</span>, (event) =&gt; &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Service worker event: install'</span>);</div><div class="line">  event.waitUntil(</div><div class="line">    caches.open(cacheName).then(<span class="function">(<span class="params">cache</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'open cache'</span>);</div><div class="line">      <span class="keyword">return</span> cache.addAll(cacheUrl);</div><div class="line">    &#125;)</div><div class="line">  );</div><div class="line">&#125;);</div><div class="line"></div><div class="line">self.addEventListener(<span class="string">'fetch'</span>, (event) =&gt; &#123;</div><div class="line">  event.respondWith(caches.match(event.request).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">if</span> (res) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'match'</span>);</div><div class="line">      <span class="keyword">return</span> res;</div><div class="line">    &#125;</div><div class="line">		<span class="comment">// 缓存中不存在，再进行网络请求</span></div><div class="line">    <span class="keyword">return</span> fetch(event.request);</div><div class="line">  &#125;));</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">self.addEventListener(<span class="string">'fetch'</span>, (event) =&gt; &#123;</div><div class="line">  <span class="keyword">var</span> requestUrl = <span class="keyword">new</span> URL(event.request.url);</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (event.request.headers.has(<span class="string">'X-Mock-Response'</span>)) &#123;</div><div class="line">    <span class="keyword">var</span> responseBody = &#123;</div><div class="line">      <span class="attr">value</span>: <span class="string">'local value'</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> responseInit = &#123;</div><div class="line">      <span class="attr">status</span>: <span class="number">200</span>,</div><div class="line">      <span class="attr">statusText</span>: <span class="string">'OK'</span>,</div><div class="line">      <span class="attr">headers</span>: &#123;</div><div class="line">        <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> mockResponse = <span class="keyword">new</span> Response(<span class="built_in">JSON</span>.stringify(responseBody), responseInit);</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">' Responding with a mock response body:'</span>, responseBody);</div><div class="line">    event.respondWith(mockResponse);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// event.respondWith() 不执行，则执行默认行为</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <h2 id="Service-mocker"><a href="#Service-mocker" class="headerlink" title="Service-mocker"></a>Service-mocker</h2><p>由于 <code>Service Worker</code> 由于 <code>Service Worker</code> 现在还处于草案阶段，只有 <code>Chrome</code> 和 <code>Firefox</code> 浏览器实现了 <code>Service Worker</code>，如果需要在本地各个浏览器中兼容实现，可以借鉴 <a href="https://github.com/service-mocker/service-mocker" target="_blank" rel="external">service-mocker</a></p>
 
         </div>
@@ -208,7 +209,7 @@ ga('send', 'pageview');
 
 
 
-    <a data-url="https://harbin1053020115.github.io/2017/02/15/service-worker-mock/" data-id="ciz6ew2wj0004qbbh9dhl80os" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+    <a data-url="https://harbin1053020115.github.io/2017/02/15/service-worker-mock/" data-id="ciz6mpfou00067kbhki66ej5u" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -419,7 +420,7 @@ ga('send', 'pageview');
                             <a href="/2017/02/15/service-worker-mock/" class="thumbnail">
     
     
-        <span style="background-image:url(https://mdn.mozillademos.org/files/12632/sw-events.png)" alt="基于 Service Worker 的本地服务 mock 方案" class="thumbnail-image"></span>
+        <span style="background-image:url(https://infrequently.org/14/html5devconf_oct/images/sw_model.png)" alt="基于 Service Worker 的本地服务 mock 方案" class="thumbnail-image"></span>
     
     
 </a>
@@ -495,7 +496,7 @@ ga('send', 'pageview');
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-redux/">react redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redux-mobx/">redux mobx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redux-orm/">redux orm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/service-worker/">service-worker</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-redux/">react,redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redux-mobx/">redux,mobx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redux-orm/">redux,orm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/service-worker/">service worker</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -505,7 +506,7 @@ ga('send', 'pageview');
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/react-redux/" style="font-size: 10px;">react redux</a> <a href="/tags/redux-mobx/" style="font-size: 10px;">redux mobx</a> <a href="/tags/redux-orm/" style="font-size: 10px;">redux orm</a> <a href="/tags/service-worker/" style="font-size: 10px;">service-worker</a>
+            <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/react-redux/" style="font-size: 10px;">react,redux</a> <a href="/tags/redux-mobx/" style="font-size: 10px;">redux,mobx</a> <a href="/tags/redux-orm/" style="font-size: 10px;">redux,orm</a> <a href="/tags/service-worker/" style="font-size: 10px;">service worker</a>
         </div>
     </div>
 
